@@ -34,6 +34,8 @@ class Item(models.Model):
     category = models.CharField(choices=CATEGORY_CHOICES,max_length=100)
     brand = models.CharField(choices=BRAND_CHOICES,max_length=20)
     label = models.CharField(choices=LABEL_CHOICES, max_length=100)
+    discount = models.IntegerField()
+    is_featured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
