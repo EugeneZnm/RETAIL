@@ -101,37 +101,27 @@
 						<div class="product_grid">
 							<div class="product_grid_border"></div>
 
-							{% if item.discounted == true %}
 							<!-- Product Item -->
-								{% for item in items %}
-								
+								{% for item in items %}	
 							<div class="product_item discount">
 								<div class="product_border"></div>
 								<div class="product_image d-flex flex-column align-items-center justify-content-center"><img src="{% static 'images/featured_1.png' %}" alt=""></div>
 								<div class="product_content">
+									{% if item.discount_price %}
 									<div class="product_price">{{item.discount_price}}<span>{{item.price}}</span></div>
+									{% else %}
+									<div class="product_price">{{item.price}}</div>
+									{% endif %}
 									<div class="product_name"><div><a href="{% url 'store:product' item.id %}" tabindex="0">{{item.title}}</a></div></div>
 								</div>
 								<div class="product_fav"><i class="fas fa-heart"></i></div>
+								{% if item.discount_price %}
 								<ul class="product_marks">
 									<li class="product_mark product_discount">-{{item.discount}}%</li>
 								</ul>
+								{% endif %}
 							</div>
 								{% endfor %}
-							{% else %}	
-								{% for item in items %}
-							<!-- Product Item -->
-							<div class="product_item">
-								<div class="product_border"></div>
-								<div class="product_image d-flex flex-column align-items-center justify-content-center"><img src="{% static 'images/featured_2.png' %}" alt=""></div>
-								<div class="product_content">
-									<div class="product_price">{{item.price}}</div>
-									<div class="product_name"><div><a href="{% url 'product' item.id %}" tabindex="0">{{item.title}}</a></div></div>
-								</div>
-								<div class="product_fav"><i class="fas fa-heart"></i></div>
-							</div>
-								{% endfor %}
-							{% endif %}
 						</div>	
 
 						<!-- Shop Page Navigation -->
