@@ -1,61 +1,58 @@
 from django.db import models
 from django.conf import settings
 
-CATEGORY_CHOICES = (
-    ('LC','Laptops & Computers'),
-    ('ST','Smartphones & Tablets'),
-    ('G','Gadgets'),
-    ('A','Accessories')
-)
+class Category(models.Model):
+    name = models.CharField(max_length=200, db_index=True)
+    slug =  models.SlugField(max_length=200, db_index=True, unique=True)
+    brand = models.CharField(max_length=200, db_index=True)
 
-LABEL_CHOICES = (
-    ('P','Primary'),
-    ('S','Secondary'),
-    ('D','danger'),
-)
+    class Meta:
+        ordering = ('name',)
+        verbose_name ='category'
+        verbose_name_plural = 'categories'
 
-BRAND_CHOICES = (
-    ('A', 'Apple'),
-    ('G', 'Google'),
-    ('X', 'Xiaomi'),
-    ('SG', 'Samsung'),
-    ('N', 'Nokia'),
-    ('O+', 'OnePlus'),
-    ('Op', 'Oppo'),
-    ('BB', 'Blackberry'),
-    ('SY', 'Sony'),
-    ('H', 'Huawei'),
-)
+    def __str__ (self):
+        return self.name    
 
 # Create your models here.
 class Item(models.Model):
-    title = models.CharField(max_length=100)
-    price = models.FloatField()
-    discount_price = models.FloatField()
-    category = models.CharField(choices=CATEGORY_CHOICES,max_length=100)
-    brand = models.CharField(choices=BRAND_CHOICES,max_length=20)
-    label = models.CharField(choices=LABEL_CHOICES, max_length=100)
-    discount = models.IntegerField()
+    category = models.ForeignKey(Category, related_name='items', on_delete=models.CASCADE)
+    title = models.CharField(max_length=200, db_index=True)
+    slug = models.SlugField(max_length=200, db_index=True)
+    image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)
+    description = models.TextField(blank=True)
     is_featured = models.BooleanField(default=False)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    stock = models.PositiveIntegerField()
+    available = models.BooleanField(default=True)
+    discount_price = models.FloatField()
+    discount = models.IntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.title
+# specifying index for Id and SLug field together
+    class Meta:
+        ordering = ('title',)
+        index_together = (('id', 'slug'),)
+        
+    def __str__ (self):
+        return self.name    
 
-# product added to cart
-class OrderItem(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+# # product added to cart
+# class OrderItem(models.Model):
+#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.title
+#     def __str__(self):
+#         return self.title
 
-class Order(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    items = models.ManyToManyField(OrderItem)
-    # date of addition
-    start_date = models.DateTimeField(auto_now_add=True)
+# class Order(models.Model):
+#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+#     items = models.ManyToManyField(OrderItem)
+#     # date of addition
+#     start_date = models.DateTimeField(auto_now_add=True)
 
-    # date order was made
-    ordered_date = models.DateTimeField()
-    ordered = models.BooleanField(default=False)
-    def __str__(self):
-        return self.title
+#     # date order was made
+#     ordered_date = models.DateTimeField()
+#     ordered = models.BooleanField(default=False)
+#     def __str__(self):
+#         return self.title
