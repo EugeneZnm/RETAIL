@@ -37,22 +37,3 @@ class Item(models.Model):
         
     def __str__ (self):
         return self.name    
-
-# # product added to cart
-# class OrderItem(models.Model):
-#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return self.title
-
-# class Order(models.Model):
-#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     items = models.ManyToManyField(OrderItem)
-#     # date of addition
-#     start_date = models.DateTimeField(auto_now_add=True)
-
-#     # date order was made
-#     ordered_date = models.DateTimeField()
-#     ordered = models.BooleanField(default=False)
-#     def __str__(self):
-#         return self.title
