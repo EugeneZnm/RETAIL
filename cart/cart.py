@@ -55,4 +55,36 @@ class Cart(object):
             # save method to update the cart in session
             self.save()
 
+    def __iter__(self):
+        """
+        Retrieving product instances in the cart by iterating over the items in the cart and getting products from the database
+        """        
+        item_ids = self.cart.keys()
 
+        # getting product objects and adding them to the cart
+        items = Item.objects.filter(id_in=item_ids)
+        for item in items:
+            self.cart[str(item.id)]['item'] = item
+        # iterating over the cart items and convert the item prices back to the decimal adding a total price attribute to each item
+        for item in self.cart.values():
+            item['price'] = Decimal(item['price'])
+            item['total_price'] = item['price'] * item['quantity']
+            yield item    
+
+    def __len__(self):
+        """
+        counting and return all the items in the cart
+        """
+        
+        return sum(item['quantity'] for item in self.cart.values())
+
+    def get_total_price(self):
+
+        # sum of items in cart returned
+        return sum(Decimal(item['price']) * item ['quantity'] for item in 
+    self.cart.values())
+
+    def clear(self):
+        # removing cart from session
+        del self.session[settings.CART_SESSION_ID]
+        self.session.modified = True
