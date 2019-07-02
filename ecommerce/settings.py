@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'store',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 SITE_ID = 1
+
+CART_SESSION_ID = 'cart'
