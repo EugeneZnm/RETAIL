@@ -20,6 +20,7 @@ def product(request, item_id):
     }    
     return render (request, "product.html", context)
 
+# Retrieving all available products by availability and Category
 def product_list(request, category_slug=None):
     category = None
     categories = Category.objects.all()
@@ -32,4 +33,7 @@ def product_list(request, category_slug=None):
         products = products.filter(category=category)
     return render (request, 'shop.html', {'category': category, 'categories': categories, 'products': products})    
 
-    
+# Retrieving a single product
+def product_detail(request, id ,slug):
+    product = get_object_or_404(Item, id=id, slug=slug,available=True)
+    return render(request, 'product.html', {'product': product})    
