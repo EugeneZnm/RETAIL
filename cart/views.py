@@ -7,7 +7,7 @@ from .forms import CartAddItemForm
 
 @require_POST
 def cart_add(request, item_id):
-    
+
     # adding products to cart nd updating quantities of existing products
     cart = Cart(request)
     item = get_object_or_404(Item, id=item_id)
@@ -16,3 +16,15 @@ def cart_add(request, item_id):
         cd = form.cleaned_data
         cart.add(item=item, quantity=cd['quantity'],update_quantity=cd['update'])
     return redirect('cart: cart_detail')    
+
+
+def cart_remove(request, item_id):
+    # removing product from cart
+    cart = Cart(request)
+    item = get_object_or_404(Item, id=item.id)
+    cart.remove(item)
+    return redirect('cart:cart_detail')
+
+def cart_detail(request):
+    cart = Cart(request)
+    return render(request, 'cart.html', {'cart':cart})    
