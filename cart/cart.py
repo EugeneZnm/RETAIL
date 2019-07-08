@@ -62,7 +62,7 @@ class Cart(object):
         item_ids = self.cart.keys()
 
         # getting product objects and adding them to the cart
-        items = Item.objects.filter(id_in=item_ids)
+        items = Item.objects.filter(id__in=item_ids)
         for item in items:
             self.cart[str(item.id)]['item'] = item
         # iterating over the cart items and convert the item prices back to the decimal adding a total price attribute to each item
