@@ -19,8 +19,8 @@
 											<div class="cart_item_text">{{item.title}}</div>
 										</div>
 										<div class="cart_item_color cart_info_col">
-											<div class="cart_item_title">Color</div>
-											<div class="cart_item_text"><span style="background-color:#999999;"></span>Silver</div>
+											<div class="cart_item_title">Remove</div>
+											<div class="cart_item_text"><a href="{% url "cart:cart_remove" item.id %}">Remove</a></div>
 										</div>
 										<div class="cart_item_quantity cart_info_col">
 											<div class="cart_item_title">Quantity</div>
