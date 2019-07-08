@@ -27,4 +27,8 @@ def cart_remove(request, item_id):
 
 def cart_detail(request):
     cart = Cart(request)
+
+    # updating number of items of object in cart
+    for item in cart:
+        item['update_quantity_form'] = CartAddItemForm( initial={'quantity': item['quantity'], 'update': True})
     return render(request, 'cart.html', {'cart':cart})    
