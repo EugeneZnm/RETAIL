@@ -56,11 +56,32 @@
                         <div class="cart_container d-flex flex-row align-items-center justify-content-end">
                             <div class="cart_icon">
                                 <img src="images/cart.png" alt="">
-                                <div class="cart_count"><span>10</span></div>
+                                <div class="cart_count" style="margin-right: 20px;background-color: white;">
+                                    <div class="cart">
+                                        {% with total_items=cart|length %}
+                                            {% if cart|length == 0 %}
+                                            Empty
+                                            {% endif %}
+                                        {% endwith %}
+                                    </div>
+                                </div>
                             </div>
                             <div class="cart_content">
-                                <div class="cart_text"><a href="#">Cart</a></div>
-                                <div class="cart_price">$85</div>
+                                <div class="cart_text"><a href="#">Cart</a>                                   
+                                </div>
+                                <div class="cart_price">
+                                    {% with total_items=cart|length %}
+                                        {% if cart|length > 0 %}
+                                        Your cart:
+                                    <a href="{% url "cart:cart_detail" %}">
+                                        {{ total_items }} item{{ total_items|pluralize }},
+                                        ${{ cart.get_total_price }}
+                                        {% else %}
+                                        Kshs 0
+                                        {% endif %}
+                                    {% endwith %}
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

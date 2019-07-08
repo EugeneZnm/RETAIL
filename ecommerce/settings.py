@@ -77,6 +77,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # context processor made available using variable named cart, executed every time a template is rendered using Django's quest context 
+                'cart.context_processors.cart',
             ],
         },
     },
