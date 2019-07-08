@@ -1,5 +1,7 @@
 from django.urls import path, include
 from django.conf.urls import url
+from django.conf.urls.static import static
+from django.conf import settings
 from .import views
 
 app_name = 'store'
@@ -13,4 +15,7 @@ urlpatterns = [
    url(r'^(?P<id>\d+)/(?P<slug>[-\w]+)/$',views.product_detail,name='product_detail'),
 
 #    path('<int:item_id>', views.product, name='product')
-]
+] 
+# enabling django to serve the uploaded files from the development server/ only during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
